@@ -27,28 +27,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calculate(View v) {
-        Investment invest = new Investment();
-        double yield = Double.parseDouble(edIncome.getText().toString());
+        double yield = Double.parseDouble(edIncome.getText().toString()) / 100;
         double intendedValue = Double.parseDouble(edValueReach.getText().toString());
+        int month = 1;
+        double saves = Double.parseDouble(edInitial.getText().toString());
 
-        invest.setDeposit(
-                Double.parseDouble(edInitial.getText().toString()));
-        invest.setFees(yield);
-        invest.setSaves(invest.getDeposit());
-        invest.addDepositMonth();
-
-        investments.add(invest);
-
+        Investment invest = new Investment();
+        invest.setMonth(month);
         invest.setDeposit(
                 Double.parseDouble(edContribuition.getText().toString()));
+        invest.setSaves(saves);
+        invest.setFees(invest.getSaves() * yield);
+        invest.addDepositMonth();
+        investments.add(invest);
 
-        while (invest.getSaves() < intendedValue) {
-            invest.setMonth();
+        saves = investments.getLast().getSaves();
+        month++;
+
+        while (saves < intendedValue){
+            invest = new Investment();
+            invest.setMonth(month);
+            invest.setDeposit(
+                    Double.parseDouble(edContribuition.getText().toString()));
+            invest.setSaves(saves);
             invest.setFees(invest.getSaves() * yield);
             invest.addDepositMonth();
-
             investments.add(invest);
+
+            saves = investments.getLast().getSaves();
+            month++;
         }
+
         Intent it = new Intent(this, Exhibition.class);
         it.putExtra("investments", investments);
         startActivity(it);

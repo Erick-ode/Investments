@@ -3,7 +3,7 @@ package com.example.investimentos;
 import java.io.Serializable;
 
 public class Investment implements Serializable {
-    private int month = 1;
+    private int month;
     private double fees;
     private double deposit;
     private double saves;
@@ -12,16 +12,16 @@ public class Investment implements Serializable {
         return month;
     }
 
-    public void setMonth() {
-        this.month++;
+    public void setMonth(int month) {
+        this.month = month;
     }
 
     public double getFees() {
-        return fees;
+        return Math.round(fees);
     }
 
     public void setFees(double fees) {
-        this.fees = fees / 100;
+        this.fees = fees;
     }
 
     public double getDeposit() {
@@ -33,7 +33,7 @@ public class Investment implements Serializable {
     }
 
     public double getSaves() {
-        return saves;
+        return Math.round(saves);
     }
 
     public void setSaves(double saves) {
@@ -41,7 +41,7 @@ public class Investment implements Serializable {
     }
 
     public void addDepositMonth(){
-        double aux = this.saves * this.fees + this.deposit;
+        double aux = this.fees + this.deposit;
         this.saves += aux;
     }
 }
