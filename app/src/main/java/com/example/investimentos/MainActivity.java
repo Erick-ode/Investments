@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 
@@ -27,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calculate(View v) {
+        if (edValueReach.getText().toString().isEmpty() ||
+                edContribuition.getText().toString().isEmpty() ||
+                edInitial.getText().toString().isEmpty() ||
+                edIncome.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Valores não podem estarem vazios",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            calc();
+        }
+    }
+
+    public void calc() {
         double yield = Double.parseDouble(edIncome.getText().toString()) / 100;
         double intendedValue = Double.parseDouble(edValueReach.getText().toString());
         int month = 1;
@@ -44,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         saves = investments.getLast().getSaves();
         month++;
 
-        while (saves < intendedValue){
+        while (saves < intendedValue) {
             invest = new Investment();
             invest.setMonth(month);
             invest.setDeposit(
